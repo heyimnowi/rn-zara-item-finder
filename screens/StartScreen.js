@@ -7,11 +7,12 @@ import {
   FlatList,
   Platform,
   Text,
-  Alert,
+  Dimensions
 } from "react-native";
 import TitleText from "../components/TitleText";
 import Input from "../components/Input";
 import MainButton from "../components/MainButton";
+import Colors from "../constants/colors";
 
 const getZaraEndpoint = (productId) => {
   return `https://itxrest.inditex.com/LOMOServiciosRESTCommerce-ws/common/1/stock/campaign/I2021/product/part-number/${productId}?physicalStoreId=7004,7008&ajax=true`;
@@ -24,13 +25,13 @@ const StartScreen = (props) => {
   const [status, setStatus] = useState(true);
 
   const getStoreName = (storeId) => {
-    return storeId === 7004 ? "SANTA FE 1937" : "FLORIDA, 651";
+    return storeId === 7004 ? "Santa Fe 1937" : "Florida 651";
   };
 
   const renderStore = (itemData) => (
     <View style={styles.listItem}>
       <TitleText style={styles.title}>
-        {getStoreName(itemData.item.physicalStoreId)}
+        Local : {getStoreName(itemData.item.physicalStoreId)}
       </TitleText>
       <FlatList
         keyExtractor={(item) => item.sizeId.toString()}
@@ -43,11 +44,12 @@ const StartScreen = (props) => {
 
   const renderItemSize = (itemData) => (
     <Text>
-      Size {itemData.item.size}: {itemData.item.quantity} units
+      <Text style={styles.sizeText}>Talle {itemData.item.size}:</Text>
+      <Text>{itemData.item.quantity} unidades</Text>
     </Text>
   );
 
-  const zeroPad = (num) =>String(num).padStart(11, '0')
+  const zeroPad = (num) => String(num).padStart(11, "0");
 
   const ListEmptyComponent = () => {
     return (
@@ -78,7 +80,6 @@ const StartScreen = (props) => {
       const response = await fetch(zaraApiEndpoint);
       const data = await response.json();
       setItemStock(data.stocks);
-      console.log(data);
     };
 
     fetchData();
@@ -95,18 +96,22 @@ const StartScreen = (props) => {
       }}
     >
       <View style={styles.screen}>
-        <TitleText style={styles.title}>Product ID:</TitleText>
-        <Input
-          style={styles.input}
-          blurOnSubmit
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType={Platform.OS === "ios" ? "number-pad" : "numeric"}
-          onChangeText={numberInputHandler}
-          value={enteredValue}
-        />
-        <View style={styles.button}>
-          <MainButton onPress={inputHandler}>Find Availability</MainButton>
+        <View style={styles.searchContainer}>
+          <TitleText style={styles.title}>ID de producto</TitleText>
+          <Input
+            style={styles.input}
+            blurOnSubmit
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType={Platform.OS === "ios" ? "number-pad" : "numeric"}
+            onChangeText={numberInputHandler}
+            value={enteredValue}
+          />
+          <View style={styles.searchButton}>
+            <MainButton onPress={inputHandler}>
+              Buscar
+            </MainButton>
+          </View>
         </View>
         <View style={styles.listContainer}>
           {status && (
@@ -127,18 +132,26 @@ const StartScreen = (props) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    padding: 10,
     alignItems: "center",
-    paddingTop: 110,
+  },
+  searchContainer: {
+    backgroundColor: Colors.tertiary,
+    width: "100%",
+    alignItems: "center",
+    paddingVertical: 40,
+    position: 'relative'
   },
   title: {
     fontSize: 20,
     color: "black",
     marginVertical: 10,
   },
-  button: {
+  searchButton: {
     width: 150,
     marginTop: 10,
+    position: "absolute",
+    left: Dimensions.get('window').width / 2 - 75,
+    bottom: -15,
   },
   input: {
     width: 200,
@@ -154,7 +167,11 @@ const styles = StyleSheet.create({
   },
   listItem: {
     fontSize: 18,
+    marginVertical: 20
   },
+  sizeText: {
+    fontWeight: "bold",
+  }
 });
 
 export default StartScreen;
