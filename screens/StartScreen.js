@@ -21,7 +21,7 @@ const StartScreen = (props) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [itemStock, setItemStock] = useState([]);
   const [zaraApiEndpoint, setZaraApiEndpoint] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(true);
 
   const getStoreName = (storeId) => {
     return storeId === 7004 ? "SANTA FE 1937" : "FLORIDA, 651";
@@ -52,7 +52,7 @@ const StartScreen = (props) => {
   const ListEmptyComponent = () => {
     return (
       <View>
-        <Text>No items to show</Text>
+        <Text>Wrong product ID or no data to show</Text>
       </View>
     );
   };
@@ -66,7 +66,6 @@ const StartScreen = (props) => {
 
   const inputHandler = () => {
     const prodId = zeroPad(parseInt(enteredValue));
-    console.log(prodId);
     setZaraApiEndpoint(getZaraEndpoint(prodId));
     setEnteredValue("");
     Keyboard.dismiss();
@@ -76,13 +75,10 @@ const StartScreen = (props) => {
     if (!zaraApiEndpoint) return;
 
     const fetchData = async () => {
-      setStatus("fetching");
-      console.log(zaraApiEndpoint);
       const response = await fetch(zaraApiEndpoint);
       const data = await response.json();
       setItemStock(data.stocks);
       console.log(data);
-      setStatus("fetched");
     };
 
     fetchData();
@@ -113,7 +109,7 @@ const StartScreen = (props) => {
           <MainButton onPress={inputHandler}>Find Availability</MainButton>
         </View>
         <View style={styles.listContainer}>
-          {itemStock && itemStock.length != 0 && (
+          {status && (
             <FlatList
               data={itemStock}
               keyExtractor={(item) => String(item.physicalStoreId)}
