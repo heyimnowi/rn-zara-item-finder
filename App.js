@@ -1,22 +1,10 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { enableScreens } from 'react-native-screens';
 
-import Header from "./components/Header";
+import StockNavigator from './navigation/StockNavigator';
 
-import StartScreen from './screens/StartScreen'
+enableScreens();
 
 export default function App() {
-  return (
-    <View style={styles.screen}>
-      <Header title="Zara" />
-      <StartScreen></StartScreen>
-    </View>
-  );
+  return <StockNavigator />;
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    alignContent: 'center',
-  }
-});

@@ -3,10 +3,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   View,
-  Keyboard,
-  FlatList,
-  Text,
-  Dimensions,
+  Keyboard
 } from "react-native";
 import TitleText from "../components/TitleText";
 import Input from "../components/Input";
@@ -19,61 +16,8 @@ const getZaraEndpoint = (productId) => {
 
 const StartScreen = (props) => {
   const [enteredValue, setEnteredValue] = useState("");
-  const [itemStock, setItemStock] = useState([]);
   const [itemUrl, setItemUrl] = useState("");
   const [prodId, setProdId] = useState("");
-
-  const getStoreName = (storeId) => {
-    return storeId === 7004 ? "Santa Fe 1937" : "Florida 651";
-  };
-
-  const renderStore = (itemData) => (
-    <View style={styles.listItem}>
-      <TitleText style={styles.title}>
-        Local : {getStoreName(itemData.item.physicalStoreId)}
-      </TitleText>
-      <FlatList
-        keyExtractor={(item) => item.sizeId.toString()}
-        data={itemData.item.sizeStocks}
-        renderItem={renderItemSize.bind(this)}
-        contentContainerStyle={styles.list}
-      ></FlatList>
-    </View>
-  );
-
-  const getSize = (size) => {
-    switch (size) {
-      case 101:
-        return "XS";
-      case 102:
-        return "S";
-      case 103:
-        return "M";
-      case 104:
-        return "L";
-      case 105:
-        return "XL";
-      default:
-        return size;
-    }
-  };
-
-  const renderItemSize = (itemData) => (
-    <Text>
-      <Text style={styles.sizeText}>Talle {getSize(itemData.item.size)}:</Text>
-      <Text>{itemData.item.quantity} unidades</Text>
-    </Text>
-  );
-
-  const zeroPad = (num) => String(num).padStart(11, "0");
-
-  const ListEmptyComponent = () => {
-    return (
-      <View style={styles.errorMessage}>
-        <Text>No hay disponibilidad en tienda</Text>
-      </View>
-    );
-  };
 
   const numberInputHandler = (inputText) => {
     setEnteredValue(inputText);
@@ -87,7 +31,6 @@ const StartScreen = (props) => {
 
   useEffect(() => {
     if (!itemUrl) return;
-
     const fetchData = async () => {
       const response = await fetch(
         `https://rn-zara-backend.herokuapp.com/?url=${itemUrl}`
@@ -101,16 +44,15 @@ const StartScreen = (props) => {
 
   useEffect(() => {
     if (!prodId) return;
-
-    console.log("prodId " + prodId);
-
     const fetchData = async () => {
       const zaraApiEndpoint = getZaraEndpoint(prodId);
       const response = await fetch(zaraApiEndpoint);
       const data = await response.json();
-      setItemStock(data.stocks);
       setEnteredValue("");
       setProdId("");
+      props.navigation.navigate({ routeName: 'Results', params: {
+        itemStock: data.stocks
+      }});
       Keyboard.dismiss();
     };
 
@@ -138,15 +80,6 @@ const StartScreen = (props) => {
             <MainButton onPress={inputHandler}>Buscar</MainButton>
           </View>
         </View>
-        <View style={styles.listContainer}>
-          <FlatList
-            data={itemStock}
-            keyExtractor={(item) => String(item.physicalStoreId)}
-            ListEmptyComponent={ListEmptyComponent}
-            renderItem={renderStore}
-            contentContainerStyle={styles.list}
-          />
-        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -156,13 +89,12 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: Colors.tertiary,
+    justifyContent: 'center'
   },
   searchContainer: {
-    backgroundColor: Colors.tertiary,
-    width: "100%",
     alignItems: "center",
-    paddingVertical: 40,
-    position: "relative",
+    padding: 15
   },
   title: {
     fontSize: 20,
@@ -171,33 +103,10 @@ const styles = StyleSheet.create({
   },
   searchButton: {
     width: 150,
-    marginTop: 10,
-    position: "absolute",
-    left: Dimensions.get("window").width / 2 - 75,
-    bottom: -15,
+    marginTop: 10
   },
   input: {
-    minWidth: 250,
     textAlign: "center",
-  },
-  list: {
-    flex: 1,
-  },
-  listContainer: {
-    flex: 1,
-    marginTop: 30,
-    width: 300,
-  },
-  listItem: {
-    fontSize: 18,
-    marginVertical: 20,
-  },
-  sizeText: {
-    fontWeight: "bold",
-  },
-  errorMessage: {
-    alignItems: 'center',
-    marginVertical: 30
   }
 });
 
