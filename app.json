@@ -1,14 +1,18 @@
 {
   "expo": {
-    "name": "rn-zara-item-finder",
-    "slug": "rn-zara-item-finder",
+    "name": "Zara Stock Availability",
+    "slug": "zara-stock-availability",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "##77D9E2"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,11 +26,12 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "##77D9E2"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "This is not an official application developed by Zara. My name is Nowi, I'm just a Zara lover who found got pissed off when the 'check availability in store feature' got disabled so here I am, giving it back to the community."
   }
 }
