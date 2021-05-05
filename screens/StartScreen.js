@@ -31,11 +31,20 @@ const StartScreen = (props) => {
 
   useEffect(() => {
     if (!itemUrl) return;
+
+    console.log("Fetch prod ID");
+
     const fetchData = async () => {
-      const response = await fetch(
-        `https://rn-zara-backend.herokuapp.com/?url=${itemUrl}`
-      );
+      //const prodIdEndpoint = `http://localhost:8081/?url=${itemUrl}`;
+      const prodIdEndpoint = `https://rn-zara-backend.herokuapp.com/?url=${itemUrl}`;
+
+      console.log(prodIdEndpoint);
+
+      const response = await fetch(prodIdEndpoint);
       const data = await response.json();
+
+      console.log(data.prodId);
+
       setProdId(data.prodId);
     };
 
@@ -44,6 +53,9 @@ const StartScreen = (props) => {
 
   useEffect(() => {
     if (!prodId) return;
+
+    console.log("Fetch stock ID");
+
     const fetchData = async () => {
       const zaraApiEndpoint = getZaraEndpoint(prodId);
       const response = await fetch(zaraApiEndpoint);
