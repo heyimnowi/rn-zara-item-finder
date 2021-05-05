@@ -2,7 +2,7 @@ import React from 'react';
 import { TextInput, StyleSheet } from 'react-native';
 
 const Input = props => {
-  return <TextInput placeholder='05536127712'  {...props} style={{ ...styles.input, ...props.style }} />;
+  return <TextInput placeholder='https://www.zara.com/ar/es/chaqueta-p05755165.html'  {...props} style={{ ...styles.input, ...props.style }} />;
 };
 
 const styles = StyleSheet.create({
