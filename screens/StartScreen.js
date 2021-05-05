@@ -45,22 +45,16 @@ const StartScreen = (props) => {
     switch (size) {
       case 101:
         return "XS";
-        break;
       case 102:
         return "S";
-        break;
       case 103:
         return "M";
-        break;
       case 104:
         return "L";
-        break;
       case 105:
         return "XL";
-        break;
       default:
         return size;
-        break;
     }
   };
 
