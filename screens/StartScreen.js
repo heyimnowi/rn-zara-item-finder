@@ -3,7 +3,8 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   View,
-  Keyboard
+  Keyboard,
+  Text
 } from "react-native";
 import TitleText from "../components/TitleText";
 import Input from "../components/Input";
@@ -79,15 +80,18 @@ const StartScreen = (props) => {
     >
       <View style={styles.screen}>
         <View style={styles.searchContainer}>
-          <TitleText style={styles.title}>Ingresa el link del producto:</TitleText>
-          <Input
-            style={styles.input}
-            blurOnSubmit
-            autoCapitalize="none"
-            autoCorrect={false}
-            onChangeText={numberInputHandler}
-            value={enteredValue}
-          />
+          <TitleText style={styles.title}>Encontrá tu prenda</TitleText>
+            <View style={styles.inputContainer}>
+              <Text style={styles.inputName}>Link del producto</Text>
+              <Input
+                style={styles.input}
+                blurOnSubmit
+                autoCapitalize="none"
+                autoCorrect={false}
+                onChangeText={numberInputHandler}
+                value={enteredValue}
+              />
+            </View>
           <View style={styles.searchButton}>
             <MainButton onPress={inputHandler}>Buscar</MainButton>
           </View>
@@ -101,24 +105,38 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: Colors.tertiary,
-    justifyContent: 'center'
+    backgroundColor: Colors.white,
+    paddingTop: 90,
+    paddingHorizontal: 0
   },
   searchContainer: {
-    alignItems: "center",
-    padding: 15
+    padding: 30,
+    width: '100%',
+    alignItems: 'center'
   },
   title: {
     fontSize: 20,
     color: "black",
-    marginVertical: 10,
+    marginBottom: 100,
+    fontSize: 32,
+    fontWeight: "bold"
   },
-  searchButton: {
-    width: 150,
-    marginTop: 10
+  inputContainer: {
+    alignContent: "flex-start",
+    width: '100%',
+  },
+  inputName: {
+    marginBottom: 10,
+    color: Colors.lightGrey,
+    fontSize: 16,
+    fontWeight: "bold"
   },
   input: {
     textAlign: "center",
+    marginBottom: 40
+  },
+  searchButton: {
+    marginTop: 10
   }
 });
 

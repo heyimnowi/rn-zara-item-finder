@@ -15,14 +15,17 @@ const MainButton = props => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: Colors.accent,
+    backgroundColor: Colors.primary,
     borderRadius: 25,
     alignItems: 'center',
-    paddingVertical: 5
+    paddingVertical: 5,
+    height: 54,
+    width: 290,
+    justifyContent: 'center'
   },
   buttonText: {
     color: 'white',
-    fontSize: 18
+    fontSize: 24
   }
 });
 
