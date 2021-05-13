@@ -7,7 +7,11 @@ const TitleText = props => (
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 18
+    fontSize: 20,
+    color: "black",
+    fontSize: 32,
+    fontWeight: "bold",
+    textAlign: 'center'
   }
 });
 

@@ -115,11 +115,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    fontSize: 20,
-    color: "black",
-    marginBottom: 100,
-    fontSize: 32,
-    fontWeight: "bold"
+    marginBottom: 100
   },
   inputContainer: {
     alignContent: "flex-start",
